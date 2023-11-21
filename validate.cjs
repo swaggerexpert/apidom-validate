@@ -64,16 +64,16 @@ const mapDiagnostics = (diagnostics) => {
   let condition;
   switch (failsOn) {
     case '1':
-      condition = errors.length + warnings.length + information.length + hints.length > 0;
+      condition = errors.length > 0;
       break;
     case '2':
-      condition = warnings.length + information.length + hints.length > 0;
+      condition = warnings.length + errors.length > 0;
       break;
     case '3':
-      condition = information.length + hints.length > 0;
+      condition = information.length + warnings.length + errors.length > 0;
       break;
     case '4':
-      condition = hints.length > 0;
+      condition = hints.length + information.length + warnings.length + errors.length > 0;
       break;
     default:
       // handle unexpected failsOn values

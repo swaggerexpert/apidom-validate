@@ -44,3 +44,14 @@ jobs:
         with:
           definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
           fails-on: 4
+      
+      - name: Expected outcomes
+        if: steps.openapi-1.outcome == 'success' && steps.openapi-4.outcome=='failure' && steps.openapiWithErrors-1.outcome=='failure' && steps.openapiWithErrors-4.outcome=='failure'
+        
+      - name: Failed outcomes
+        if: steps.openapi-1.outcome == 'failure' && steps.openapi-4.outcome=='success' && steps.openapiWithErrors-1.outcome=='success' && steps.openapiWithErrors-4.outcome=='success'
+        run: exit 1
+
+
+
+
