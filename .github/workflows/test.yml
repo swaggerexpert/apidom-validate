@@ -16,9 +16,31 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: amandalian/apidom-validate@trigger-error-option
+
+      - name: Validate openapi.json file at Severity level 1 (Errors)
+        id: openapi-1
+        uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
           fails-on: 1
-
-
+      - name: Validate openapi.json file at Severity level 4 (Hints)
+        id: openapi-4
+        if: success() || failure()
+        uses: amandalian/apidom-validate@trigger-error-option
+        with:
+          definition-file: ./.github/workflows/fixtures/openapi.json
+          fails-on: 4
+      - name: Validate openapi_with_errors.json file at Severity level 1 (Errors)
+        id: openapiWithErrors-1
+        if: success() || failure()
+        uses: amandalian/apidom-validate@trigger-error-option
+        with:
+          definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
+          fails-on: 1
+      - name: Validate openapi_with_errors.json file at Severity level 4 (Errors)
+        id: openapiWithErrors-4
+        if: success() || failure()
+        uses: amandalian/apidom-validate@trigger-error-option
+        with:
+          definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
+          fails-on: 4
