@@ -4,6 +4,10 @@ inputs:
   definition-file:
     description: Path to definition file
     required: true
+  fails-on:
+    description: Severity level at which to fail the action
+    required: false
+    default: '4'
 runs:
   using: 'docker'
   image: 'Dockerfile'
