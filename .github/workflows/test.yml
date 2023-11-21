@@ -46,11 +46,10 @@ jobs:
           fails-on: 4
       
       - name: Expected outcomes
-        if: steps.openapi-1.outcome == 'success' && steps.openapi-4.outcome=='failure' && steps.openapiWithErrors-1.outcome=='failure' && steps.openapiWithErrors-4.outcome=='failure'
-        run: exit 0
+        if: always() && (steps.openapi-1.outcome == 'success' && steps.openapi-4.outcome == 'failure' && steps.openapiWithErrors-1.outcome == 'failure' && steps.openapiWithErrors-4.outcome == 'failure')
         
       - name: Failed outcomes
-        if: steps.openapi-1.outcome == 'failure' && steps.openapi-4.outcome=='success' && steps.openapiWithErrors-1.outcome=='success' && steps.openapiWithErrors-4.outcome=='success'
+        if: always() && (steps.openapi-1.outcome != 'success' || steps.openapi-4.outcome != 'failure' || steps.openapiWithErrors-1.outcome != 'failure' || steps.openapiWithErrors-4.outcome != 'failure')
         run: exit 1
 
 
