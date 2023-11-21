@@ -37,7 +37,7 @@ jobs:
         with:
           definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
           fails-on: 1
-      - name: Validate openapi_with_errors.json file at Severity level 4 (Errors)
+      - name: Validate openapi_with_errors.json file at Severity level 4 (Hints)
         id: openapiWithErrors-4
         if: success() || failure()
         uses: amandalian/apidom-validate@trigger-error-option
@@ -47,7 +47,7 @@ jobs:
       
       - name: Expected outcomes
         if: always() && (steps.openapi-1.outcome == 'success' && steps.openapi-4.outcome == 'failure' && steps.openapiWithErrors-1.outcome == 'failure' && steps.openapiWithErrors-4.outcome == 'failure')
-        run: exit 0
+        continue-on-error: true
         
       - name: Failed outcomes
         if: always() && (steps.openapi-1.outcome != 'success' || steps.openapi-4.outcome != 'failure' || steps.openapiWithErrors-1.outcome != 'failure' || steps.openapiWithErrors-4.outcome != 'failure')
