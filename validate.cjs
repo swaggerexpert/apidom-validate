@@ -63,16 +63,16 @@ const mapDiagnostics = (diagnostics) => {
 
   let condition;
   switch (failsOn) {
-    case 1:
+    case '1':
       condition = errors.length > 0;
       break;
-    case 2:
+    case '2':
       condition = warnings.length > 0;
       break;
-    case 3:
+    case '3':
       condition = information.length > 0;
       break;
-    case 4:
+    case '4':
       condition = hints.length > 0;
       break;
     default:
