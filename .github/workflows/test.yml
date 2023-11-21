@@ -8,6 +8,7 @@ on:
   workflow_dispatch:
     branches:
       - main
+      - trigger-error-option
 
 jobs:
   test_github_action:
@@ -15,7 +16,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: char0n/apidom-validate@main
+      - uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
 
