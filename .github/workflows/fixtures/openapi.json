@@ -189,7 +189,8 @@
                 "available",
                 "pending",
                 "sold"
-              ]
+              ],
+              "nullable": "true"
             }
           }
         ],
@@ -300,11 +301,11 @@
           {
             "name": "petId",
             "in": "path",
+            "default": 1,
             "description": "ID of pet to return",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "int64"
             }
           }
         ],

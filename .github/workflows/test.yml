@@ -19,5 +19,6 @@ jobs:
       - uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
+          fails-on: 4
 
 

@@ -9,6 +9,7 @@ runs:
   image: 'Dockerfile'
   args:
     - ${{ inputs.definition-file }}
+    - ${{ inputs.fails-on }}
 branding:
   icon: 'file-text'
   color: 'green'
