@@ -47,7 +47,6 @@ jobs:
       
       - name: Expected outcomes
         if: always()
-        continue-on-error: true
         run: |
           if [ "${{ steps.openapi-1.outcome }}" == "success" && "${{ steps.openapi-4.outcome }}" == "failure" && "${{ steps.openapiWithErrors-1.outcome }}" == "failure" && "${{ steps.openapiWithErrors-4.outcome }}" == "failure" ]; then
             exit 0
