@@ -19,33 +19,39 @@ jobs:
 
       - name: Validate openapi.json file at Severity level 1 (Errors)
         id: openapi-1
+        continue-on-error: true
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
           fails-on: 1
       - name: Validate openapi.json file at Severity level 4 (Hints)
         id: openapi-4
-        if: success() || failure()
+        continue-on-error: true
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
           fails-on: 4
       - name: Validate openapi_with_errors.json file at Severity level 1 (Errors)
         id: openapiWithErrors-1
-        if: success() || failure()
+        continue-on-error: true
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
           fails-on: 1
       - name: Validate openapi_with_errors.json file at Severity level 4 (Hints)
         id: openapiWithErrors-4
-        if: success() || failure()
+        continue-on-error: true
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
           fails-on: 4
       
       - name: Expected outcomes
-        if: always() && (steps.openapi-1.outcome == 'success' && steps.openapi-4.outcome == 'failure' && steps.openapiWithErrors-1.outcome == 'failure' && steps.openapiWithErrors-4.outcome == 'failure')
+        # if: always() && (steps.openapi-1.outcome == 'success' && steps.openapi-4.outcome == 'failure' && steps.openapiWithErrors-1.outcome == 'failure' && steps.openapiWithErrors-4.outcome == 'failure')
         continue-on-error: true
-        run: exit 0
+        run: |
+          if [ "${{ steps.openapi-1.outcome }}" == "success" && "${{ steps.openapi-4.outcome }}" == "failure" && "${{ steps.openapiWithErrors-1.outcome }}" == "failure" && "${{ steps.openapiWithErrors-4.outcome }}" == "failure" ]; then
+            exit 0
+          else
+            exit 1
+          fi
