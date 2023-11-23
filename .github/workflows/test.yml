@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - trigger-error-option
 
   workflow_dispatch:
     branches:
