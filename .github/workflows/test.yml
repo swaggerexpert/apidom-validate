@@ -15,6 +15,11 @@ jobs:
   test_github_action:
     runs-on: ubuntu-latest
     continue-on-error: true
+    outputs:
+      output1: ${{ steps.openapi-1.outcome }}
+      output2: ${{ steps.openapi-4.outcome }}
+      output3: ${{ steps.openapiWithErrors-1.outcome }}
+      output4: ${{ steps.openapiWithErrors-4.outcome }}
 
     steps:
       - uses: actions/checkout@v2
@@ -54,7 +59,7 @@ jobs:
     steps:
       - name: Expected outcomes
         run: |
-          if [ "${{ needs.test_github_action.steps.openapi-1.outcome }}" == "success" ] && [ "${{ needs.test_github_action.steps.openapi-4.outcome }}" == "failure" ] && [ "${{ needs.test_github_action.steps.openapiWithErrors-1.outcome }}" == "failure" ] && [ "${{ needs.test_github_action.steps.openapiWithErrors-4.outcome }}" == "failure" ]; then
+          if [ "${{ needs.test_github_action.outputs['output1'] }}" == "success" ] && [ "${{ needs.test_github_action.outputs['output2'] }}" == "failure" ] && [ "${{ needs.test_github_action.outputs['output3'] }}" == "failure" ] && [ "${{ needs.test_github_action.outputs['output4'] }}" == "failure" ]; then
             exit 0
           else
             exit 1
