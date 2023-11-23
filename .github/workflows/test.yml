@@ -54,7 +54,7 @@ jobs:
     steps:
       - name: Expected outcomes
         run: |
-          if [ "${{ steps.openapi-1.outcome }}" == "success" ] && [ "${{ steps.openapi-4.outcome }}" == "failure" ] && [ "${{ steps.openapiWithErrors-1.outcome }}" == "failure" ] && [ "${{ steps.openapiWithErrors-4.outcome }}" == "failure" ]; then
+          if [ "${{ needs.test_github_action.steps.openapi-1.outcome }}" == "success" ] && [ "${{ needs.test_github_action.steps.openapi-4.outcome }}" == "failure" ] && [ "${{ needs.test_github_action.steps.openapiWithErrors-1.outcome }}" == "failure" ] && [ "${{ needs.test_github_action.steps.openapiWithErrors-4.outcome }}" == "failure" ]; then
             exit 0
           else
             exit 1
