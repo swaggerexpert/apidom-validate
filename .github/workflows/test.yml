@@ -59,12 +59,13 @@ jobs:
     steps:
       - name: Expected outcomes
         run: |
+          echo ""
           echo " Test |     Definition File      | Fails On Level | Expected Outcome | Actual Outcome"
           echo "------|--------------------------|----------------|------------------|----------------"
-          echo "  1   |       openapi.json       |        1       |      success     |      ${{ needs.test_github_action.outputs['output1'] }}"
-          echo "  2   |       openapi.json       |        4       |      failure     |      ${{ needs.test_github_action.outputs['output2'] }}"
-          echo "  3   | openapi_with_errors.json |        1       |      failure     |      ${{ needs.test_github_action.outputs['output3'] }}"
-          echo "  4   | openapi_with_errors.json |        4       |      failure     |      ${{ needs.test_github_action.outputs['output4'] }}"
+          echo "  1   |       openapi.json       |        1       |      success     |    ${{ needs.test_github_action.outputs['output1'] }}"
+          echo "  2   |       openapi.json       |        4       |      failure     |    ${{ needs.test_github_action.outputs['output2'] }}"
+          echo "  3   | openapi_with_errors.json |        1       |      failure     |    ${{ needs.test_github_action.outputs['output3'] }}"
+          echo "  4   | openapi_with_errors.json |        4       |      failure     |    ${{ needs.test_github_action.outputs['output4'] }}"
 
           if [ "${{ needs.test_github_action.outputs['output1'] }}" == "success" ] && [ "${{ needs.test_github_action.outputs['output2'] }}" == "failure" ] && [ "${{ needs.test_github_action.outputs['output3'] }}" == "failure" ] && [ "${{ needs.test_github_action.outputs['output4'] }}" == "failure" ]; then
             echo "Test succeeded: Actual outcomes match expected outcomes"
