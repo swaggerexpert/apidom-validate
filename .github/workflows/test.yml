@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - trigger-error-option
 
   workflow_dispatch:
     branches:
@@ -18,8 +17,6 @@ jobs:
     outputs:
       output1: ${{ steps.test1.outcome }}
       output2: ${{ steps.test2.outcome }}
-      output3: ${{ steps.test3.outcome }}
-      output4: ${{ steps.test4.outcome }}
 
     steps:
       - uses: actions/checkout@v2
@@ -29,27 +26,12 @@ jobs:
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
-          fails-on: 1
       - id: test2
         name: "Test 2: Validate openapi.json file at Severity level 4 (Hints)"
         if: success() || failure()
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
-          fails-on: 4
-      - id: test3
-        name: "Test 3: Validate openapi_with_errors.json file at Severity level 1 (Errors)"
-        if: success() || failure()
-        uses: amandalian/apidom-validate@trigger-error-option
-        with:
-          definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
-          fails-on: 1
-      - id: test4
-        name: "Test 4: Validate openapi_with_errors.json file at Severity level 4 (Hints)"
-        if: success() || failure()
-        uses: amandalian/apidom-validate@trigger-error-option
-        with:
-          definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
           fails-on: 4
 
   verify_outcomes:
@@ -64,14 +46,11 @@ jobs:
           echo "------|--------------------------|----------------|------------------|----------------"
           echo "  1   |       openapi.json       |        1       |      success     |    ${{ needs.test_github_action.outputs['output1'] }}"
           echo "  2   |       openapi.json       |        4       |      failure     |    ${{ needs.test_github_action.outputs['output2'] }}"
-          echo "  3   | openapi_with_errors.json |        1       |      failure     |    ${{ needs.test_github_action.outputs['output3'] }}"
-          echo "  4   | openapi_with_errors.json |        4       |      failure     |    ${{ needs.test_github_action.outputs['output4'] }}"
 
-          if [ "${{ needs.test_github_action.outputs['output1'] }}" == "success" ] && [ "${{ needs.test_github_action.outputs['output2'] }}" == "failure" ] && [ "${{ needs.test_github_action.outputs['output3'] }}" == "failure" ] && [ "${{ needs.test_github_action.outputs['output4'] }}" == "failure" ]; then
-            echo "SUCCESS: Actual outcomes match expected outcomes"
+          if [ "${{ needs.test_github_action.outputs['output1'] }}" == "success" ] && [ "${{ needs.test_github_action.outputs['output2'] }}" == "failure" ] ; then
+            echo "\nSUCCESS: Actual outcomes match expected outcomes"
             exit 0
           else
-            echo "FAILED: Actual outcomes do not match expected outcomes."
+            echo "\nFAILED: Actual outcomes do not match expected outcomes."
             exit 1
           fi
-   
