@@ -42,10 +42,10 @@ jobs:
       - name: Expected outcomes
         run: |
           echo ""
-          echo " Test |     Definition File      | Fails On Level | Expected Outcome | Actual Outcome"
-          echo "------|--------------------------|----------------|------------------|----------------"
-          echo "  1   |       openapi.json       |        1       |      success     |    ${{ needs.test_github_action.outputs['output1'] }}"
-          echo "  2   |       openapi.json       |        4       |      failure     |    ${{ needs.test_github_action.outputs['output2'] }}"
+          echo " Test | Definition File | Fails On Level | Expected Outcome | Actual Outcome"
+          echo "------|-----------------|----------------|------------------|----------------"
+          echo "  1   |   openapi.json  |        1       |      success     |    ${{ needs.test_github_action.outputs['output1'] }}"
+          echo "  2   |   openapi.json  |        4       |      failure     |    ${{ needs.test_github_action.outputs['output2'] }}"
 
           if [ "${{ needs.test_github_action.outputs['output1'] }}" == "success" ] && [ "${{ needs.test_github_action.outputs['output2'] }}" == "failure" ] ; then
             echo "\nSUCCESS: Actual outcomes match expected outcomes"
