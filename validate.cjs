@@ -81,7 +81,7 @@ const mapDiagnostics = (diagnostics) => {
       process.exit(1);
   }
 
-  // fail the action
+  // fail the action on condition
   if (condition) {
     core.setFailed('');
   }
