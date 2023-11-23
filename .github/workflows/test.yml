@@ -14,7 +14,6 @@ on:
 jobs:
   test_github_action:
     runs-on: ubuntu-latest
-    continue-on-error: true
     outputs:
       output1: ${{ steps.openapi-1.outcome }}
       output2: ${{ steps.openapi-4.outcome }}
@@ -26,27 +25,28 @@ jobs:
 
       - name: Validate openapi.json file at Severity level 1 (Errors)
         id: openapi-1
+        continue-on-error: true
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
           fails-on: 1
       - name: Validate openapi.json file at Severity level 4 (Hints)
         id: openapi-4
-        if: success() || failure()
+        continue-on-error: true
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
           fails-on: 4
       - name: Validate openapi_with_errors.json file at Severity level 1 (Errors)
         id: openapiWithErrors-1
-        if: success() || failure()
+        continue-on-error: true
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
           fails-on: 1
       - name: Validate openapi_with_errors.json file at Severity level 4 (Hints)
         id: openapiWithErrors-4
-        if: success() || failure()
+        continue-on-error: true
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
@@ -59,9 +59,18 @@ jobs:
     steps:
       - name: Expected outcomes
         run: |
+          echo "Expected Outcome | Actual Outcome"
+          echo "-----------------|----------------"
+          echo "     Success     | ${{ needs.test_github_action.outputs['output1'] }}"
+          echo "     Failure     | ${{ needs.test_github_action.outputs['output2'] }}"
+          echo "     Failure     | ${{ needs.test_github_action.outputs['output3'] }}"
+          echo "     Failure     | ${{ needs.test_github_action.outputs['output4'] }}"
+
           if [ "${{ needs.test_github_action.outputs['output1'] }}" == "success" ] && [ "${{ needs.test_github_action.outputs['output2'] }}" == "failure" ] && [ "${{ needs.test_github_action.outputs['output3'] }}" == "failure" ] && [ "${{ needs.test_github_action.outputs['output4'] }}" == "failure" ]; then
+            echo "Test succeeded: Actual outcomes match expected outcomes"
             exit 0
           else
+            echo "Test failed: Actual outcomes do not match expected outcomes."
             exit 1
           fi
    
