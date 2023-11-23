@@ -4,11 +4,16 @@ inputs:
   definition-file:
     description: Path to definition file
     required: true
+  fails-on:
+    description: Severity level at which to fail action
+    required: false
+    default: '1'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
     - ${{ inputs.definition-file }}
+    - ${{ inputs.fails-on }}
 branding:
   icon: 'file-text'
   color: 'green'

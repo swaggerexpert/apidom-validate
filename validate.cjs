@@ -7,7 +7,7 @@ const core = require('@actions/core');
 const { TextDocument } = require('vscode-languageserver-textdocument');
 
 
-const [, , definitionFile] = process.argv;
+const [, , definitionFile, failsOn] = process.argv;
 const definitionFilePath = path.join('/github/workspace', definitionFile);
 const definitionFileContent = fs.readFileSync(definitionFilePath, { encoding:'utf8', flag:'r' });
 const languageService = getLanguageService({});
@@ -61,8 +61,27 @@ const mapDiagnostics = (diagnostics) => {
     : '\u001b[1;1m';
   core.info(`${color}${errors.length + warnings.length} problems (${errors.length} error, ${warnings.length} warnings, ${information.length} information, ${hints.length} hints)`);
 
-  // fail the action on errors
-  if (errors.length > 0) {
+  let condition;
+  switch (failsOn) {
+    case '1':
+      condition = errors.length > 0;
+      break;
+    case '2':
+      condition = warnings.length + errors.length > 0;
+      break;
+    case '3':
+      condition = information.length + warnings.length + errors.length > 0;
+      break;
+    case '4':
+      condition = hints.length + information.length + warnings.length + errors.length > 0;
+      break;
+    default:
+      console.error(`Invalid failsOn value: ${failsOn}`);
+      process.exit(1);
+  }
+
+  // fail the action on condition
+  if (condition) {
     core.setFailed('');
   }
 })();
