@@ -76,7 +76,6 @@ const mapDiagnostics = (diagnostics) => {
       condition = hints.length + information.length + warnings.length + errors.length > 0;
       break;
     default:
-      // handle unexpected failsOn values
       console.error(`Invalid failsOn value: ${failsOn}`);
       process.exit(1);
   }

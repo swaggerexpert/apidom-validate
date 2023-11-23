@@ -8,7 +8,6 @@ on:
   workflow_dispatch:
     branches:
       - main
-      - trigger-error-option
 
 jobs:
   test_github_action:
@@ -22,14 +21,14 @@ jobs:
       - uses: actions/checkout@v2
 
       - id: test1
-        name: "Test 1: Validate openapi.json file at Severity level 1 (Errors)"
-        uses: amandalian/apidom-validate@trigger-error-option
+        name: "Test 1: Validate at Severity level 1 (Errors)"
+        uses: amandalian/apidom-validate@main
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
       - id: test2
-        name: "Test 2: Validate openapi.json file at Severity level 4 (Hints)"
+        name: "Test 2: Validate at Severity level 4 (Hints)"
         if: success() || failure()
-        uses: amandalian/apidom-validate@trigger-error-option
+        uses: amandalian/apidom-validate@main
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
           fails-on: 4
@@ -39,16 +38,17 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Expected outcomes
+      - name: Compare Expected vs Actual Outcomes
         run: |
           echo ""
           echo " Test | Definition File | Fails On Level | Expected Outcome | Actual Outcome"
           echo "------|-----------------|----------------|------------------|----------------"
           echo "   1  |  openapi.json   |       1        |     success      |    ${{ needs.test_github_action.outputs['output1'] }}"
           echo "   2  |  openapi.json   |       4        |     failure      |    ${{ needs.test_github_action.outputs['output2'] }}"
+          echo ""
 
           if [ "${{ needs.test_github_action.outputs['output1'] }}" == "success" ] && [ "${{ needs.test_github_action.outputs['output2'] }}" == "failure" ] ; then
-            echo "SUCCESS: Actual outcomes match expected outcomes"
+            echo "SUCCESS: Actual outcomes match expected outcomes."
             exit 0
           else
             echo "FAILED: Actual outcomes do not match expected outcomes."

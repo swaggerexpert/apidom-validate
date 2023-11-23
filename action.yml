@@ -5,7 +5,7 @@ inputs:
     description: Path to definition file
     required: true
   fails-on:
-    description: Severity level at which to fail the action
+    description: Severity level at which to fail action
     required: false
     default: '1'
 runs:
