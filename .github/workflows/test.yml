@@ -32,21 +32,21 @@ jobs:
           fails-on: 1
       - id: test2
         name: "Test 2: Validate openapi.json file at Severity level 4 (Hints)"
-        if: success() || failed()
+        if: success() || failure()
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
           fails-on: 4
       - id: test3
         name: "Test 3: Validate openapi_with_errors.json file at Severity level 1 (Errors)"
-        if: success() || failed()
+        if: success() || failure()
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
           fails-on: 1
       - id: test4
         name: "Test 4: Validate openapi_with_errors.json file at Severity level 4 (Hints)"
-        if: success() || failed()
+        if: success() || failure()
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
