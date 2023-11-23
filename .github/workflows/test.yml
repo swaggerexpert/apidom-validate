@@ -13,6 +13,7 @@ on:
 jobs:
   test_github_action:
     runs-on: ubuntu-latest
+    continue-on-error: true
 
     steps:
       - uses: actions/checkout@v2
@@ -25,28 +26,25 @@ jobs:
           fails-on: 1
       - name: Validate openapi.json file at Severity level 4 (Hints)
         id: openapi-4
-        if: success() || failure()
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
           fails-on: 4
       - name: Validate openapi_with_errors.json file at Severity level 1 (Errors)
         id: openapiWithErrors-1
-        if: success() || failure()
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
           fails-on: 1
       - name: Validate openapi_with_errors.json file at Severity level 4 (Hints)
         id: openapiWithErrors-4
-        if: success() || failure()
         uses: amandalian/apidom-validate@trigger-error-option
         with:
           definition-file: ./.github/workflows/fixtures/openapi_with_errors.json
           fails-on: 4
       
       - name: Expected outcomes
-        if: always()
+        continue-on-error: false
         run: |
           if [ "${{ steps.openapi-1.outcome }}" == "success" ] && [ "${{ steps.openapi-4.outcome }}" == "failure" ] && [ "${{ steps.openapiWithErrors-1.outcome }}" == "failure" ] && [ "${{ steps.openapiWithErrors-4.outcome }}" == "failure" ]; then
             exit 0

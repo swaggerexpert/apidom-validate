@@ -7,7 +7,7 @@ inputs:
   fails-on:
     description: Severity level at which to fail the action
     required: false
-    default: '4'
+    default: '1'
 runs:
   using: 'docker'
   image: 'Dockerfile'
