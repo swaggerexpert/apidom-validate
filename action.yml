@@ -5,9 +5,15 @@ inputs:
     description: Path to definition file
     required: true
   fails-on:
+    type: choice
     description: Severity level at which to fail action
     required: false
-    default: '1'
+    options: 
+    - 1
+    - 2
+    - 3
+    - 4
+    default: 1
 runs:
   using: 'docker'
   image: 'Dockerfile'
