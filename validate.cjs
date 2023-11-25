@@ -7,18 +7,26 @@ const core = require('@actions/core');
 const { TextDocument } = require('vscode-languageserver-textdocument');
 
 
-const [, , definitionFile, failsOn] = process.argv;
+const definitionFile = process.argv.at(2);
+let failsOn = parseInt(process.argv.at(3), 10);
 const definitionFilePath = path.join('/github/workspace', definitionFile);
 const definitionFileContent = fs.readFileSync(definitionFilePath, { encoding:'utf8', flag:'r' });
 const languageService = getLanguageService({});
 const textDocument = TextDocument.create(definitionFile, 'apidom', 0, definitionFileContent);
 
+const DiagnosticSeverity = {
+  Error: 1,
+  Warning: 2,
+  Information: 3,
+  Hint: 4,
+}
+
 const mapLine = (range) => `${range.start.line}:${range.start.character}`;
-const mapSeverity = (severity) => severity === 1
+const mapSeverity = (severity) => severity === DiagnosticSeverity.Error
   ? 'error'
-  : severity === 2
+  : severity === DiagnosticSeverity.Warning
   ? 'warning'
-  : severity === 3
+  : severity === DiagnosticSeverity.Information
   ? 'information'
   : 'hint';
 const mapDiagnostic = ({ range, severity, code, message }) => ({
@@ -34,15 +42,19 @@ const mapDiagnostics = (diagnostics) => {
   logger.table(diagnostics.map(mapDiagnostic));
   return (ts.read() || '').toString();
 };
+const getSeverityCount = (severity, { errors, warnings, information, hints }) => {
+  const components = [errors, warnings, information, hints];
+  return components.slice(0, severity).reduce((total, current) => total + current.length, 0);
+};
 
 (async () => {
   core.info(`\u001b[1mApiDOM lint ${definitionFile}`);
 
   const validationResult = await languageService.doValidation(textDocument);
-  const errors = validationResult.filter((diagnostic) => diagnostic.severity === 1);
-  const warnings = validationResult.filter((diagnostic) => diagnostic.severity === 2);
-  const information = validationResult.filter((diagnostic) => diagnostic.severity === 3);
-  const hints = validationResult.filter((diagnostic) => diagnostic.severity === 4);
+  const errors = validationResult.filter((diagnostic) => diagnostic.severity === DiagnosticSeverity.Error);
+  const warnings = validationResult.filter((diagnostic) => diagnostic.severity === DiagnosticSeverity.Warning);
+  const information = validationResult.filter((diagnostic) => diagnostic.severity === DiagnosticSeverity.Information);
+  const hints = validationResult.filter((diagnostic) => diagnostic.severity === DiagnosticSeverity.Hint);
 
   languageService.terminate();
 
@@ -61,27 +73,14 @@ const mapDiagnostics = (diagnostics) => {
     : '\u001b[1;1m';
   core.info(`${color}${errors.length + warnings.length} problems (${errors.length} error, ${warnings.length} warnings, ${information.length} information, ${hints.length} hints)`);
 
-  let condition;
-  switch (failsOn) {
-    case '1':
-      condition = errors.length > 0;
-      break;
-    case '2':
-      condition = warnings.length + errors.length > 0;
-      break;
-    case '3':
-      condition = information.length + warnings.length + errors.length > 0;
-      break;
-    case '4':
-      condition = hints.length + information.length + warnings.length + errors.length > 0;
-      break;
-    default:
-      core.error(`\u001b[1;31mInvalid failsOn value: ${failsOn}`);
-      process.exit(1);
+  // handle unknown severity level
+  if (!Object.values(DiagnosticSeverity).includes(failsOn)) {
+    core.warning(`\u001b[1;33mUnknown severity level ${failsOn}, defaulting to ${DiagnosticSeverity.Error}`);
+    failsOn = DiagnosticSeverity.Error;
   }
 
-  // fail the action on condition
-  if (condition) {
+  // fail the action depending on severity defined in `failsOn`
+  if (getSeverityCount(failsOn, { errors, warnings, information, hints }) > 0) {
     core.setFailed('');
   }
 })();
