@@ -8,7 +8,7 @@ const { TextDocument } = require('vscode-languageserver-textdocument');
 
 
 const definitionFile = process.argv.at(2);
-let failsOn = parseInt(process.argv.at(3), 10);
+const failsOn = parseInt(process.argv.at(3), 10);
 const definitionFilePath = path.join('/github/workspace', definitionFile);
 const definitionFileContent = fs.readFileSync(definitionFilePath, { encoding:'utf8', flag:'r' });
 const languageService = getLanguageService({});
@@ -72,12 +72,6 @@ const getSeverityCount = (severity, { errors, warnings, information, hints }) =>
     ? '\u001b[1;33m'
     : '\u001b[1;1m';
   core.info(`${color}${errors.length + warnings.length} problems (${errors.length} error, ${warnings.length} warnings, ${information.length} information, ${hints.length} hints)`);
-
-  // handle unknown severity level
-  if (!Object.values(DiagnosticSeverity).includes(failsOn)) {
-    core.warning(`\u001b[1;33mUnknown severity level ${failsOn}, defaulting to ${DiagnosticSeverity.Error}`);
-    failsOn = DiagnosticSeverity.Error;
-  }
 
   // fail the action depending on severity defined in `failsOn`
   if (getSeverityCount(failsOn, { errors, warnings, information, hints }) > 0) {
