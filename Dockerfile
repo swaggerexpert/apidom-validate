@@ -5,11 +5,10 @@ SHELL ["/bin/bash", "-c"]
 
 WORKDIR /workspace
 
+COPY package.json package-lock.json .
+
 # install dependencies
-RUN npm install \
-  @swagger-api/apidom-ls@1.0.0-alpha.10 \
-  @actions/core \
-  vscode-languageserver-textdocument
+RUN npm install
 
 COPY validate.cjs .
 ENTRYPOINT ["node", "/workspace/validate.cjs"]
