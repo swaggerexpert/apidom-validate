@@ -1,18 +1,17 @@
 # ApiDOM Validator GitHub Action
 
-This GitHub Action validates [OpenAPI 2.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md), [OpenAPI](https://github.com/OAI/OpenAPI-Specification/tree/main/versions) 
-3.x.y and [AsyncAPI](https://github.com/OAI/OpenAPI-Specification/tree/main/versions) 2.x definition file using [ApiDOM Language Service](https://github.com/swagger-api/apidom).
-
+This GitHub Action validates [OpenAPI 2.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md), [OpenAPI 3.x.y](https://spec.openapis.org/#openapi-specification) 
+and [AsyncAPI 2.x](https://www.asyncapi.com/docs/reference/specification/v2.x) definition file using [ApiDOM Language Service](https://github.com/swagger-api/apidom).
 Validation rules are exactly the same as the one that https://editor-next.swagger.io/ uses.
 
 **Supported specifications:**
 
 - [OpenAPI 2.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/2.0.md)
-- [OpenAPI 3.0.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.0.md)
-- [OpenAPI 3.0.1](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.1.md)
-- [OpenAPI 3.0.2](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md)
-- [OpenAPI 3.0.3](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.3.md)
-- [OpenAPI 3.1.0](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.1.0.md)
+- [OpenAPI 3.0.0](https://spec.openapis.org/oas/v3.0.0.html)
+- [OpenAPI 3.0.1](https://spec.openapis.org/oas/v3.0.1.html)
+- [OpenAPI 3.0.2](https://spec.openapis.org/oas/v3.0.2.html)
+- [OpenAPI 3.0.3](https://spec.openapis.org/oas/v3.0.3.html)
+- [OpenAPI 3.1.0](https://spec.openapis.org/oas/v3.1.0.html)
 - [AsyncAPI 2.0.0](https://v2.asyncapi.com/docs/reference/specification/v2.0.0)
 - [AsyncAPI 2.1.0](https://v2.asyncapi.com/docs/reference/specification/v2.1.0)
 - [AsyncAPI 2.2.0](https://v2.asyncapi.com/docs/reference/specification/v2.2.0)
