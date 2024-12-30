@@ -7,9 +7,6 @@ updates:
     schedule:
       interval: "weekly"
       time: "23:00"
-    allow:
-      - dependency-name: "node"
-        versions: "22.*"
 
   - package-ecosystem: "github-actions"
     target-branch: "main"
