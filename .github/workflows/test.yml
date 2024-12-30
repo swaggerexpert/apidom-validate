@@ -21,14 +21,14 @@ jobs:
 
       - id: test1
         name: "Test 1: Validate at Severity level 1 (Errors)"
-        uses: char0n/apidom-validate@main
+        uses: swaggerexpert/apidom-validate@main
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
 
       - id: test2
         name: "Test 2: Validate at Severity level 4 (Hints)"
         if: success() || failure()
-        uses: char0n/apidom-validate@main
+        uses: swaggerexpert/apidom-validate@main
         with:
           definition-file: ./.github/workflows/fixtures/openapi.json
           fails-on: 4
