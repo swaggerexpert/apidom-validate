@@ -37,7 +37,7 @@ Severity level at which to fail action. Default `1`, if not specified.
 ## Example usage
 
 ```yaml
-uses: char0n/apidom-validate@v1
+uses: swaggerexpert/apidom-validate@v1
 with:
   definition-file: 'path/to/my/openapi.yaml'
   fails-on: 2
