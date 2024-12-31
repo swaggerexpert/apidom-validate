@@ -11,7 +11,7 @@ Validation rules are exactly the same as the one that https://editor-next.swagge
 - [OpenAPI 3.0.1](https://spec.openapis.org/oas/v3.0.1.html)
 - [OpenAPI 3.0.2](https://spec.openapis.org/oas/v3.0.2.html)
 - [OpenAPI 3.0.3](https://spec.openapis.org/oas/v3.0.3.html)
-- [OpenAPI 3.0.3](https://spec.openapis.org/oas/v3.0.4.html)
+- [OpenAPI 3.0.4](https://spec.openapis.org/oas/v3.0.4.html)
 - [OpenAPI 3.1.0](https://spec.openapis.org/oas/v3.1.0.html)
 - [AsyncAPI 2.0.0](https://v2.asyncapi.com/docs/reference/specification/v2.0.0)
 - [AsyncAPI 2.1.0](https://v2.asyncapi.com/docs/reference/specification/v2.1.0)
