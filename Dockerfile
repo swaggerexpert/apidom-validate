@@ -1,4 +1,4 @@
-FROM node:22.12.0-bullseye
+FROM node:25.2.1-bullseye
 
 # use bash as default shell
 SHELL ["/bin/bash", "-c"]
