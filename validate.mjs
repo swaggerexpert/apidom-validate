@@ -98,7 +98,7 @@ const getSeverityCount = (
         ? "\u001b[1;33m"
         : "\u001b[1;1m";
   core.info(
-    `${color}${errors.length + warnings.length} problems (${errors.length} error, ${warnings.length} warnings, ${information.length} information, ${hints.length} hints)`,
+    `${color}${errors.length + warnings.length} problems (${errors.length} errors, ${warnings.length} warnings, ${information.length} information, ${hints.length} hints)`,
   );
 
   // fail the action depending on severity defined in `failsOn`
