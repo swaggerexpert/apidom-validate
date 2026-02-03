@@ -17,7 +17,7 @@ jobs:
       output2: ${{ steps.test2.outcome }}
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
 
       - id: test1
         name: "Test 1: Validate at Severity level 1 (Errors)"
